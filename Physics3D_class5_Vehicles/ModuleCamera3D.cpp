@@ -4,6 +4,7 @@
 #include "ModuleCamera3D.h"
 #include "ModulePhysics3D.h"
 #include "PhysVehicle3D.h"
+#include "Timer.h"
 
 
 ModuleCamera3D::ModuleCamera3D(Application* app, bool start_enabled) : Module(app, start_enabled)
@@ -26,7 +27,7 @@ bool ModuleCamera3D::Start()
 {
 	LOG("Setting up the camera");
 	bool ret = true;
-
+	CameraDirection = { 0,0 };
 	return ret;
 }
 
@@ -168,11 +169,26 @@ void ModuleCamera3D::FollowCar()
 	vec3 vec3position = GetVec3From_btVec3(position);
 	vec3 vec3direction = GetVec3From_btVec3(direction);
 
-	vec3 CameraPosition = ( vec3direction) - vec3position;
+	while (pastDirections.Count() < 30)
+	{
+		pastDirections.Push(vec3direction);
+	}
+	vec3 pop;
+	pastDirections.Pop(pop);
+	vec3 CameraPosition =   vec3position - 5*pop;
 
-	 CameraPosition.y += 4;
-
-	vec3 CameraDirection =  vec3direction + vec3position;
+	 CameraPosition.y += 7;
+	 
+	 CameraDirection = 10 * vec3direction + vec3position;
+	// CameraDirection.y = 10 * vec3direction.y + vec3position.y;
+	// CameraDirection.z = 10 * vec3direction.z + vec3position.z;
+	//CameraDirection.x = vec3position.x;
+	// if (directionTimer.Read() >= 100)
+	// {
+	//	 directionTimer.Start();
+	//	 CameraDirection.x += 10 * vec3direction.x;
+	// }
+	//
 	
 	Look(CameraPosition, CameraDirection,true);
 }

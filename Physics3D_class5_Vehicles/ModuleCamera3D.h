@@ -2,7 +2,10 @@
 #include "Module.h"
 #include "Globals.h"
 #include "glmath.h"
+#include "p2Queue.h"
 class btVector3;
+class Timer;
+
 class ModuleCamera3D : public Module
 {
 public:
@@ -30,7 +33,10 @@ public:
 	mat4x4 Camera_view;
 	vec3 Last_position;
 private:
-
+	p2Queue<vec3> pastDirections;
+	Timer directionTimer;
 	mat4x4 ViewMatrix, ViewMatrixInverse;
+	vec3 CameraDirection;
+	
 
 };
