@@ -5,6 +5,9 @@
 #include "ModulePhysics3D.h"
 #include "PhysVehicle3D.h"
 #include "Timer.h"
+#include "p2Log.h"
+
+
 
 
 ModuleCamera3D::ModuleCamera3D(Application* app, bool start_enabled) : Module(app, start_enabled)
@@ -27,7 +30,7 @@ bool ModuleCamera3D::Start()
 {
 	LOG("Setting up the camera");
 	bool ret = true;
-	CameraDirection = { 0,0 };
+	state = THIRD_PERSON;
 	return ret;
 }
 
@@ -45,7 +48,6 @@ update_status ModuleCamera3D::Update(float dt)
 	// Implement a debug camera with keys and mouse
 	// Now we can make this movememnt frame rate independant!
 
-	vec3 newPos(0,0,0);
 	
 	/*float speed = 3.0f * dt;
 	if(App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)
@@ -110,7 +112,19 @@ update_status ModuleCamera3D::Update(float dt)
 	//Look(Last_position, Camera_view.translation(), true);
 	//CalculateViewMatrix();
 	//App->camera->Last_position = Camera_view.translation();
-	FollowCar();
+	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT ||App->player->vehicle->GetKmh() < -60)
+	{
+		state = THIRD_PERSON_BACK;
+	}
+	else if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
+	{
+		state = FIRST_PERSON;
+	}
+	else
+	{
+		state = THIRD_PERSON;
+	}
+	FollowCar(state);
 	return UPDATE_CONTINUE;
 }
 
@@ -161,36 +175,22 @@ float* ModuleCamera3D::GetViewMatrix()
 	return &ViewMatrix;
 }
 
-void ModuleCamera3D::FollowCar()
+void ModuleCamera3D::FollowCar(CameraState state)
 {
-	btTransform transform = App->player->vehicle->vehicle->getChassisWorldTransform();
-	btVector3 position = transform.getOrigin();
-	btVector3 direction = transform.getBasis().getColumn(2);
-	vec3 vec3position = GetVec3From_btVec3(position);
-	vec3 vec3direction = GetVec3From_btVec3(direction);
-
-	while (pastDirections.Count() < 30)
+	switch (state)
 	{
-		pastDirections.Push(vec3direction);
+	case(1):
+		ThirdPersonCamera();
+		break;
+	case(2):
+		ThirdPersonCameraFromBack();
+		break;
+	case(3):
+		FirstPersonCamera();
+		break;
+	default:
+		break;
 	}
-	vec3 pop;
-	pastDirections.Pop(pop);
-	vec3 CameraPosition =   vec3position - 5*pop;
-
-	 CameraPosition.y += 7;
-	 
-	 CameraDirection = 10 * vec3direction + vec3position;
-	// CameraDirection.y = 10 * vec3direction.y + vec3position.y;
-	// CameraDirection.z = 10 * vec3direction.z + vec3position.z;
-	//CameraDirection.x = vec3position.x;
-	// if (directionTimer.Read() >= 100)
-	// {
-	//	 directionTimer.Start();
-	//	 CameraDirection.x += 10 * vec3direction.x;
-	// }
-	//
-	
-	Look(CameraPosition, CameraDirection,true);
 }
 
 vec3 ModuleCamera3D::GetVec3From_btVec3(btVector3 vector)
@@ -202,6 +202,82 @@ vec3 ModuleCamera3D::GetVec3From_btVec3(btVector3 vector)
 	ret.z = vector.z();
 
 	return ret;
+}
+
+void ModuleCamera3D::ThirdPersonCamera()
+{
+	btTransform transform = App->player->vehicle->vehicle->getChassisWorldTransform();
+	btVector3 position = transform.getOrigin();
+	btVector3 direction = transform.getBasis().getColumn(2);
+	vec3 vec3position = GetVec3From_btVec3(position);
+	vec3 vec3direction = GetVec3From_btVec3(direction);
+
+	while (pastDirections.Count() < 20)
+	{
+		pastDirections.Push(vec3direction);
+	}
+	vec3 pop;
+	pastDirections.Pop(pop);
+	vec3 CameraPosition = vec3position - 10 * pop;
+
+	CameraPosition.y += 7;
+
+	vec3 CameraDirection = 10 * vec3direction + vec3position;
+	// CameraDirection.y = 10 * vec3direction.y + vec3position.y;
+	// CameraDirection.z = 10 * vec3direction.z + vec3position.z;
+	//CameraDirection.x = vec3position.x;
+	// if (directionTimer.Read() >= 100)
+	// {
+	//	 directionTimer.Start();
+	//	 CameraDirection.x += 10 * vec3direction.x;
+	// }
+	//
+
+	Look(CameraPosition, CameraDirection, true);
+}
+
+void ModuleCamera3D::ThirdPersonCameraFromBack()
+{
+	btTransform transform = App->player->vehicle->vehicle->getChassisWorldTransform();
+	btVector3 position = transform.getOrigin();
+	btVector3 direction = transform.getBasis().getColumn(2);
+	vec3 vec3position = GetVec3From_btVec3(position);
+	vec3 vec3direction = GetVec3From_btVec3(direction);
+
+	while (pastDirections.Count() < 20)
+	{
+		pastDirections.Push(vec3direction);
+	}
+	vec3 pop;
+	pastDirections.Pop(pop);
+	vec3 CameraDirection = vec3position - 10 * pop;
+
+
+
+	vec3 CameraPosition = 10 * vec3direction + vec3position;
+	CameraPosition.y += 7;
+
+	Look(CameraPosition, CameraDirection, true);
+}
+
+void ModuleCamera3D::FirstPersonCamera()
+{
+	btTransform transform = App->player->vehicle->vehicle->getChassisWorldTransform();
+	btVector3 position = transform.getOrigin();
+	btVector3 direction = transform.getBasis().getColumn(2);
+	vec3 vec3position = GetVec3From_btVec3(position);
+	vec3 vec3direction = GetVec3From_btVec3(direction);
+	vec3 tmp = vec3direction;
+	vec3 CameraPosition = vec3position + 5*normalize(tmp);
+	CameraPosition.y += 1;
+	vec3 CameraDirection = vec3position + 10*vec3direction;
+	Look(CameraPosition, CameraDirection, true);
+	//LOG("x:%f y:%f z:%f", vec3direction.x, vec3direction.y, vec3direction.z);
+}
+
+void ModuleCamera3D::VehicleToWorld()
+{
+
 }
 
 // -----------------------------------------------------------------

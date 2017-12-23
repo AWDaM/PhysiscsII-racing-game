@@ -6,6 +6,15 @@
 class btVector3;
 class Timer;
 
+enum CameraState
+{
+	NO_STATE,
+	THIRD_PERSON,
+	THIRD_PERSON_BACK,
+	FIRST_PERSON,
+	FROM_WHEEL,
+};
+
 class ModuleCamera3D : public Module
 {
 public:
@@ -20,8 +29,13 @@ public:
 	void LookAt(const vec3 &Spot);
 	void Move(const vec3 &Movement);
 	float* GetViewMatrix();
-	void FollowCar();
+	void FollowCar(CameraState state);
 	vec3 GetVec3From_btVec3(btVector3 vector);
+	void ThirdPersonCamera();
+	void ThirdPersonCameraFromBack();
+	void FirstPersonCamera();
+
+	void VehicleToWorld();
 
 private:
 
@@ -34,9 +48,8 @@ public:
 	vec3 Last_position;
 private:
 	p2Queue<vec3> pastDirections;
-	Timer directionTimer;
 	mat4x4 ViewMatrix, ViewMatrixInverse;
-	vec3 CameraDirection;
+	CameraState state = NO_STATE;
 	
 
 };
