@@ -277,7 +277,7 @@ void ModuleCamera3D::FirstPersonCamera()
 	vec3 vec3position = GetVec3From_btVec3(position);
 	vec3 vec3direction = GetVec3From_btVec3(direction);
 	vec3 tmp = vec3direction;
-	vec3 CameraPosition = vec3position + 5*normalize(tmp);
+	vec3 CameraPosition = vec3position + VehicleToWorld({ 3,0,0 });
 	CameraPosition.y += 1;
 	vec3 CameraDirection = vec3position + 10*vec3direction;
 	Look(CameraPosition, CameraDirection, true);
@@ -286,17 +286,17 @@ void ModuleCamera3D::FirstPersonCamera()
 
 void ModuleCamera3D::WheelCamera()
 {
-	//btTransform transform = App->player->vehicle->vehicle->getChassisWorldTransform();
-	//btVector3 position = transform.getOrigin();
-	//btVector3 direction = transform.getBasis().getColumn(2);
-	//btVector3 tmp = direction.rotate(tmp, 90);
-	//vec3 vec3position = GetVec3From_btVec3(position);
-	//vec3 vec3direction = GetVec3From_btVec3(direction);
-	//vec3 tmp2 = vec3direction;
-	//vec3 CameraPosition = vec3position + normalize(tmp2) + normalize(GetVec3From_btVec3(tmp));
-	//vec3 CameraDirection = vec3direction;
+	btTransform transform = App->player->vehicle->vehicle->getChassisWorldTransform();
+	btVector3 position = transform.getOrigin();
+	btVector3 direction = transform.getBasis().getColumn(2);
 
-	//Look(CameraPosition, CameraDirection, true);
+	vec3 vec3position = GetVec3From_btVec3(position);
+	vec3 vec3direction = GetVec3From_btVec3(direction);
+
+	vec3 CameraPosition = VehicleToWorld({ 0,0,0 });
+	vec3 CameraDirection = vec3direction;
+
+	Look(CameraPosition, CameraDirection, true);
 }
 
 vec3 ModuleCamera3D::VehicleToWorld(vec3 localpos)
@@ -304,12 +304,13 @@ vec3 ModuleCamera3D::VehicleToWorld(vec3 localpos)
 	vec3 ret;
 	btTransform transform = App->player->vehicle->vehicle->getChassisWorldTransform();
 	btVector3 position = transform.getOrigin();
-
+	btScalar module = position.length();
 	vec3 vec3position = GetVec3From_btVec3(position.normalize());
 	
 	mat3x3 rotMat(vec3position.x, 0, 0, 0, vec3position.y, 0, 0, 0, vec3position.z);
 
 	ret = rotMat*localpos;
+
 
 	return ret;
 }
