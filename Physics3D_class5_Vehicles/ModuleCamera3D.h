@@ -34,8 +34,9 @@ public:
 	void ThirdPersonCamera();
 	void ThirdPersonCameraFromBack();
 	void FirstPersonCamera();
+	void WheelCamera();
 
-	void VehicleToWorld();
+	vec3 VehicleToWorld(vec3 localpos);
 
 private:
 

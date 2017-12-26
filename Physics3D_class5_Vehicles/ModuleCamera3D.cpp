@@ -120,6 +120,10 @@ update_status ModuleCamera3D::Update(float dt)
 	{
 		state = FIRST_PERSON;
 	}
+	else if (App->input->GetKey(SDL_SCANCODE_E) == KEY_REPEAT)
+	{
+		state = FROM_WHEEL;
+	}
 	else
 	{
 		state = THIRD_PERSON;
@@ -177,6 +181,15 @@ float* ModuleCamera3D::GetViewMatrix()
 
 void ModuleCamera3D::FollowCar(CameraState state)
 {
+	btTransform transform = App->player->vehicle->vehicle->getChassisWorldTransform();
+	btVector3 direction = transform.getBasis().getColumn(2);
+	vec3 vec3direction = GetVec3From_btVec3(direction);
+
+	while (pastDirections.Count() < 2)
+	{
+		pastDirections.Push(vec3direction);
+	}
+
 	switch (state)
 	{
 	case(1):
@@ -188,6 +201,8 @@ void ModuleCamera3D::FollowCar(CameraState state)
 	case(3):
 		FirstPersonCamera();
 		break;
+	case(4):
+		WheelCamera();
 	default:
 		break;
 	}
@@ -212,10 +227,7 @@ void ModuleCamera3D::ThirdPersonCamera()
 	vec3 vec3position = GetVec3From_btVec3(position);
 	vec3 vec3direction = GetVec3From_btVec3(direction);
 
-	while (pastDirections.Count() < 20)
-	{
-		pastDirections.Push(vec3direction);
-	}
+
 	vec3 pop;
 	pastDirections.Pop(pop);
 	vec3 CameraPosition = vec3position - 10 * pop;
@@ -244,10 +256,7 @@ void ModuleCamera3D::ThirdPersonCameraFromBack()
 	vec3 vec3position = GetVec3From_btVec3(position);
 	vec3 vec3direction = GetVec3From_btVec3(direction);
 
-	while (pastDirections.Count() < 20)
-	{
-		pastDirections.Push(vec3direction);
-	}
+
 	vec3 pop;
 	pastDirections.Pop(pop);
 	vec3 CameraDirection = vec3position - 10 * pop;
@@ -275,9 +284,30 @@ void ModuleCamera3D::FirstPersonCamera()
 	//LOG("x:%f y:%f z:%f", vec3direction.x, vec3direction.y, vec3direction.z);
 }
 
-void ModuleCamera3D::VehicleToWorld()
+void ModuleCamera3D::WheelCamera()
 {
+	//btTransform transform = App->player->vehicle->vehicle->getChassisWorldTransform();
+	//btVector3 position = transform.getOrigin();
+	//btVector3 direction = transform.getBasis().getColumn(2);
+	//btVector3 tmp = direction.rotate(tmp, 90);
+	//vec3 vec3position = GetVec3From_btVec3(position);
+	//vec3 vec3direction = GetVec3From_btVec3(direction);
+	//vec3 tmp2 = vec3direction;
+	//vec3 CameraPosition = vec3position + normalize(tmp2) + normalize(GetVec3From_btVec3(tmp));
+	//vec3 CameraDirection = vec3direction;
 
+	//Look(CameraPosition, CameraDirection, true);
+}
+
+vec3 ModuleCamera3D::VehicleToWorld(vec3 localpos)
+{
+	vec3 ret;
+	btTransform transform = App->player->vehicle->vehicle->getChassisWorldTransform();
+	btVector3 position = transform.getOrigin();
+	vec3 vec3position = GetVec3From_btVec3(position);
+	ret = localpos + vec3position;
+
+	return ret;
 }
 
 // -----------------------------------------------------------------
