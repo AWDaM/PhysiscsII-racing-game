@@ -19,6 +19,9 @@
     <Filter Include="Sources\Modules\Game">
       <UniqueIdentifier>{83f46af7-e02f-40c0-9e56-41d76082527b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Tools\Pugi">
+      <UniqueIdentifier>{405ec814-07a2-4287-a099-36110e3fb95a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -93,6 +96,12 @@
     <ClInclude Include="p2Log.h">
       <Filter>Sources\Containers</Filter>
     </ClInclude>
+    <ClInclude Include="PugiXml\src\pugiconfig.hpp">
+      <Filter>Sources\Tools\Pugi</Filter>
+    </ClInclude>
+    <ClInclude Include="PugiXml\src\pugixml.hpp">
+      <Filter>Sources\Tools\Pugi</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -151,6 +160,9 @@
     </ClCompile>
     <ClCompile Include="p2Log.cpp">
       <Filter>Sources\Containers</Filter>
+    </ClCompile>
+    <ClCompile Include="PugiXml\src\pugixml.cpp">
+      <Filter>Sources\Tools\Pugi</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

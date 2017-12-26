@@ -225,8 +225,8 @@ void ModuleCamera3D::ThirdPersonCamera()
 	btVector3 position = transform.getOrigin();
 	btVector3 direction = transform.getBasis().getColumn(2);
 	vec3 vec3position = GetVec3From_btVec3(position);
+	LOG("x: %f, y:%f, z:%f", vec3position.x, vec3position.y, vec3position.z);
 	vec3 vec3direction = GetVec3From_btVec3(direction);
-
 
 	vec3 pop;
 	pastDirections.Pop(pop);
