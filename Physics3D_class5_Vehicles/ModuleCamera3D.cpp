@@ -304,9 +304,13 @@ vec3 ModuleCamera3D::VehicleToWorld(vec3 localpos)
 	vec3 ret;
 	btTransform transform = App->player->vehicle->vehicle->getChassisWorldTransform();
 	btVector3 position = transform.getOrigin();
-	vec3 vec3position = GetVec3From_btVec3(position);
-	ret = localpos + vec3position;
+
+	vec3 vec3position = GetVec3From_btVec3(position.normalize());
 	
+	mat3x3 rotMat(vec3position.x, 0, 0, 0, vec3position.y, 0, 0, 0, vec3position.z);
+
+	ret = rotMat*localpos;
+
 	return ret;
 }
 
