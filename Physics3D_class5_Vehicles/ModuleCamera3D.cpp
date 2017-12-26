@@ -293,7 +293,7 @@ void ModuleCamera3D::WheelCamera()
 	vec3 vec3position = GetVec3From_btVec3(position);
 	vec3 vec3direction = GetVec3From_btVec3(direction);
 
-	vec3 CameraPosition = VehicleToWorld({ 0,0,0 });
+	vec3 CameraPosition = VehicleToWorld({ 0,5,0 });
 	vec3 CameraDirection = vec3direction;
 
 	Look(CameraPosition, CameraDirection, true);
@@ -304,12 +304,13 @@ vec3 ModuleCamera3D::VehicleToWorld(vec3 localpos)
 	vec3 ret;
 	btTransform transform = App->player->vehicle->vehicle->getChassisWorldTransform();
 	btVector3 position = transform.getOrigin();
+	btVector3 nposition = position.normalize();
 	btScalar module = position.length();
-	vec3 vec3position = GetVec3From_btVec3(position.normalize());
+	vec3 vec3position = GetVec3From_btVec3(nposition);
 	
 	mat3x3 rotMat(vec3position.x, 0, 0, 0, vec3position.y, 0, 0, 0, vec3position.z);
 
-	ret = rotMat*localpos;
+	ret = vec3position + (rotMat*localpos);
 
 
 	return ret;

@@ -34,9 +34,10 @@ bool ModuleSceneIntro::CleanUp()
 // Update
 update_status ModuleSceneIntro::Update(float dt)
 {
-	Plane p(0, 1, 0, 0);
-	p.axis = true;
-	p.Render();
+	Cube c(10, 5, 50);
+	c.SetPos(5, -5, 10);
+	c.axis = true;
+	c.Render();
 
 	return UPDATE_CONTINUE;
 }
