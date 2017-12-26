@@ -185,7 +185,7 @@ void ModuleCamera3D::FollowCar(CameraState state)
 	btVector3 direction = transform.getBasis().getColumn(2);
 	vec3 vec3direction = GetVec3From_btVec3(direction);
 
-	while (pastDirections.Count() < 2)
+	while (pastDirections.Count() < 30)
 	{
 		pastDirections.Push(vec3direction);
 	}
@@ -306,7 +306,7 @@ vec3 ModuleCamera3D::VehicleToWorld(vec3 localpos)
 	btVector3 position = transform.getOrigin();
 	vec3 vec3position = GetVec3From_btVec3(position);
 	ret = localpos + vec3position;
-
+	
 	return ret;
 }
 
