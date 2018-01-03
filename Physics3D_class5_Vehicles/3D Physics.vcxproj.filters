@@ -22,6 +22,9 @@
     <Filter Include="Sources\Tools\Pugi">
       <UniqueIdentifier>{405ec814-07a2-4287-a099-36110e3fb95a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Files">
+      <UniqueIdentifier>{156f4c61-6c9c-47c4-98c7-54d7aa65c44d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -164,5 +167,10 @@
     <ClCompile Include="PugiXml\src\pugixml.cpp">
       <Filter>Sources\Tools\Pugi</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="map.xml">
+      <Filter>Sources\Files</Filter>
+    </Xml>
   </ItemGroup>
 </Project>

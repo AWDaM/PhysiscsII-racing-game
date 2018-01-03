@@ -18,6 +18,9 @@ public:
 	bool Start();
 	update_status Update(float dt);
 	bool CleanUp();
+	 
+	bool LoadLevelFromXML();
+	Cube* LoadCubeFromXML(pugi::xml_node node);
 
 	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
 

@@ -3,6 +3,8 @@
 class Application;
 struct PhysBody3D;
 
+#include "PugiXml\src\pugixml.hpp"
+
 class Module
 {
 private :
