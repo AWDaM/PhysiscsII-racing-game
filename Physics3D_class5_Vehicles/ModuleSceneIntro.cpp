@@ -20,6 +20,12 @@ bool ModuleSceneIntro::Start()
 	App->camera->Move(vec3(1.0f, 1.0f, 0.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
 
+	c.SetSize(10, 5, 50);
+	c.SetPos(5, -5, 10);
+	c.SetRotation(10, { 1,0,0.7f });
+	c.axis = true;
+	App->physics->AddBody(c, 0);
+
 	return ret;
 }
 
@@ -34,9 +40,8 @@ bool ModuleSceneIntro::CleanUp()
 // Update
 update_status ModuleSceneIntro::Update(float dt)
 {
-	Cube c(10, 5, 50);
-	c.SetPos(5, -5, 10);
-	c.axis = true;
+	
+
 	c.Render();
 
 	return UPDATE_CONTINUE;
