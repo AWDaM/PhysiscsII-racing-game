@@ -67,17 +67,21 @@ PhysBody3D* ModuleSceneIntro::LoadCubeFromXML(pugi::xml_node node)
 	Cube c;
 	c.SetSize(node.child("size").attribute("x").as_float(), node.child("size").attribute("y").as_float(), node.child("size").attribute("z").as_float());
 	c.SetPos(node.child("pos").attribute("x").as_float(), node.child("pos").attribute("y").as_float(), node.child("pos").attribute("z").as_float());
-	c.SetRotation(node.child("rotation").attribute("angle").as_float(), { node.child("vector").attribute("x").as_float(),node.child("vector").attribute("y").as_float(),node.child("vector").attribute("z").as_float() });
 	
+	float angle = node.child("rotation").attribute("angle").as_float(0);
+
+	if(angle != 0)
+	c.SetRotation(angle , { node.child("vector").attribute("x").as_float(),node.child("vector").attribute("y").as_float(),node.child("vector").attribute("z").as_float() });
+	
+	mapObjects.add(c);
 	return App->physics->AddBody(c, 0.0f);
 }
 
 // Update
 update_status ModuleSceneIntro::Update(float dt)
-{
-	
-
-	c.Render();
+{	
+	for(p2List_item<Cube>* item = mapObjects.getFirst(); item; item = item->next)
+		item->data.Render();
 
 	return UPDATE_CONTINUE;
 }

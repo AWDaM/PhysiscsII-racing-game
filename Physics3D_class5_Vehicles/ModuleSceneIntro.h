@@ -1,6 +1,6 @@
 #pragma once
 #include "Module.h"
-#include "p2DynArray.h"
+#include "p2List.h"
 #include "Globals.h"
 #include "Primitive.h"
 
@@ -32,7 +32,7 @@ public:
 	PhysBody3D* pb_snake2[MAX_SNAKE];
 	Sphere s_snake2[MAX_SNAKE];
 	*/
-	Cube c;
+	p2List<Cube> mapObjects;
 
 	PhysBody3D* pb_chassis;
 	Cube p_chassis;

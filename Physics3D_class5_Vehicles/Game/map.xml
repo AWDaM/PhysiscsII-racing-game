@@ -5,10 +5,132 @@
 <map>
    <cube>
     <size x="50" y="5" z="50"/>
-    <pos x="1" y="5" z="1"/>
-    <rotation angle="10"/>
-    <vector x="1" y="0" z="0"/>
+    <pos x="0" y="5" z="0"/>
   </cube>
-  
- 
+  <cube>
+    <size x="50" y="5" z="50"/>
+    <pos x="0" y="5" z="50"/>
+  </cube>
+  <cube>
+    <size x="50" y="5" z="50"/>
+    <pos x="0" y="5" z="100"/>
+  </cube>
+  <cube>
+    <size x="50" y="5" z="50"/>
+    <pos x="0" y="5" z="150"/>
+  </cube>
+  <cube>
+    <size x="100" y="5" z="50"/>
+    <pos x="-25" y="5" z="200"/>
+  </cube>
+  <cube>
+    <size x="100" y="5" z="50"/>
+    <pos x="-75" y="5" z="250"/>
+  </cube>
+  <cube>
+    <size x="150" y="5" z="50"/>
+    <pos x="-150" y="5" z="300"/>
+  </cube>
+  <cube>
+    <size x="50" y="5" z="50"/>
+    <pos x="-200" y="5" z="350"/>
+  </cube>
+  <cube>
+    <size x="100" y="5" z="50"/>
+    <pos x="-175" y="5" z="400"/>
+  </cube>
+  <cube>
+    <size x="300" y="5" z="50"/>
+    <pos x="0" y="5" z="450"/>
+  </cube>
+  <cube>
+    <size x="100" y="5" z="50"/>
+    <pos x="175" y="5" z="400"/>
+  </cube>
+  <cube>
+    <size x="100" y="5" z="50"/>
+    <pos x="175" y="5" z="400"/>
+  </cube>
+  <cube>
+    <size x="100" y="5" z="50"/>
+    <pos x="175" y="5" z="400"/>
+  </cube>
+  <cube>
+    <size x="50" y="5" z="50"/>
+    <pos x="200" y="5" z="350"/>
+  </cube>
+  <cube>
+    <size x="50" y="5" z="50"/>
+    <pos x="200" y="5" z="350"/>
+  </cube>
+  <cube>
+    <size x="25" y="5" z="50"/>
+    <pos x="212.5" y="5" z="300"/>
+  </cube>
+  <cube>
+    <size x="6.25" y="5" z="100"/>
+    <pos x="228.125" y="5" z="250"/>
+  </cube>
+  <cube>
+    <size x="6.25" y="5" z="100"/>
+    <pos x="221.875" y="5" z="225"/>
+  </cube>
+  <cube>
+    <size x="6.25" y="5" z="100"/>
+    <pos x="215.625" y="5" z="200"/>
+  </cube>
+  <cube>
+    <size x="6.25" y="5" z="200"/>
+    <pos x="209.375" y="5" z="125"/>
+  </cube>
+  <cube>
+    <size x="6.25" y="5" z="150"/>
+    <pos x="203.125" y="5" z="125"/>
+  </cube>
+  <cube>
+    <size x="6.25" y="5" z="100"/>
+    <pos x="215.625" y="5" z="25"/>
+  </cube>
+  <cube>
+    <size x="6.25" y="5" z="150"/>
+    <pos x="221.875" y="5" z="-50"/>
+  </cube>
+  <cube>
+    <size x="50" y="5" z="50"/>
+    <pos x="200" y="5" z="-150"/>
+  </cube>
+  <cube>
+    <size x="50" y="5" z="300"/>
+    <pos x="200" y="5" z="-300"/>
+  </cube>
+  <cube>
+    <size x="5" y="25" z="25"/>
+    <pos x="200" y="12.5" z="-250"/>
+    <rotation angle="45"/>
+    <vector x="0" y="1" z="0"/>
+  </cube>
+  <cube>
+    <size x="5" y="25" z="25"/>
+    <pos x="175" y="12.5" z="-325"/>
+    <rotation angle="-45"/>
+    <vector x="0" y="1" z="0"/>
+  </cube>
+  <cube>
+    <size x="5" y="25" z="25"/>
+    <pos x="212.5" y="12.5" z="-275"/>
+    <rotation angle="-45"/>
+    <vector x="0" y="1" z="0"/>
+  </cube>
+  <cube>
+    <size x="5" y="25" z="25"/>
+    <pos x="200" y="12.5" z="-350"/>
+    <rotation angle="-45"/>
+    <vector x="0" y="1" z="0"/>
+  </cube>
+  <cube>
+    <size x="5" y="25" z="25"/>
+    <pos x="225" y="12.5" z="-425"/>
+    <rotation angle="45"/>
+    <vector x="0" y="1" z="0"/>
+  </cube>
 </map>
