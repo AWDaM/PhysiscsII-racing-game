@@ -200,6 +200,7 @@ void ModuleCamera3D::FollowCar(CameraState state)
 		break;
 	case(3):
 		FirstPersonCamera();
+		pastDirections.Pop();
 		break;
 	case(4):
 		WheelCamera();

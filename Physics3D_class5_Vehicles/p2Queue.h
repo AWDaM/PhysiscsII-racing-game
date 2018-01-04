@@ -114,6 +114,21 @@ public:
 		return result;
 	}
 
+	bool Pop()
+	{
+		bool result = false;
+
+		if (start != nullptr)
+		{
+			p2Queue_item<tdata>* new_start = start->next;
+			RELEASE(start);
+			start = new_start;
+			result = true;
+		}
+
+		return result;
+	}
+
 	/**
 	* Reads one of the values
 	*/
