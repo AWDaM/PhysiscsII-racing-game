@@ -20,12 +20,9 @@ bool ModuleSceneIntro::Start()
 	App->camera->Move(vec3(1.0f, 1.0f, 0.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
 
-	c.SetSize(10, 5, 50);
-	c.SetPos(5, -5, 10);
-	c.SetRotation(10, { 1,0,0.7f });
-	c.axis = true;
-	App->physics->AddBody(c, 0);
+	
 
+	LoadLevelFromXML();
 	return ret;
 }
 
@@ -47,25 +44,32 @@ bool ModuleSceneIntro::LoadLevelFromXML()
 	{
 		LOG("The config file couldnt be loaded properly because %s", result.description());
 	}
-
 	else
 	{
 		ret = true;
 		LOG("File loaded correctly");
 		node = map_file.child("map");
 	}
+	pugi::xml_node tmp = node.child("cube");
 
+	while (tmp)
+	{
+		LoadCubeFromXML(tmp);
+		tmp = tmp.next_sibling("cube");
+	}
+	
 
 	return ret;
 }
 
-Cube* ModuleSceneIntro::LoadCubeFromXML(pugi::xml_node node)
+PhysBody3D* ModuleSceneIntro::LoadCubeFromXML(pugi::xml_node node)
 {
-	Cube* c = new Cube;
-	c->SetSize(node.child("size").attribute("x").as_float(), node.child("size").attribute("y").as_float(), node.child("size").attribute("z").as_float());
-	c->SetPos(node.child("pos").attribute("x").as_float(), node.child("pos").attribute("y").as_float(), node.child("pos").attribute("z").as_float());
-	c->SetRotation(node.child("rotation").attribute("angle").as_float(), { node.child("vector").attribute("x").as_float(),node.child("vector").attribute("y").as_float(),node.child("vector").attribute("z").as_float() });
-	return c;
+	Cube c;
+	c.SetSize(node.child("size").attribute("x").as_float(), node.child("size").attribute("y").as_float(), node.child("size").attribute("z").as_float());
+	c.SetPos(node.child("pos").attribute("x").as_float(), node.child("pos").attribute("y").as_float(), node.child("pos").attribute("z").as_float());
+	c.SetRotation(node.child("rotation").attribute("angle").as_float(), { node.child("vector").attribute("x").as_float(),node.child("vector").attribute("y").as_float(),node.child("vector").attribute("z").as_float() });
+	
+	return App->physics->AddBody(c, 0.0f);
 }
 
 // Update

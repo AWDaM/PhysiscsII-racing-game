@@ -169,7 +169,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="map.xml">
+    <Xml Include="Game\map.xml">
       <Filter>Sources\Files</Filter>
     </Xml>
   </ItemGroup>
