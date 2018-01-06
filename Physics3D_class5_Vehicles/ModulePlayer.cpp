@@ -16,6 +16,12 @@ ModulePlayer::~ModulePlayer()
 // Load assets
 bool ModulePlayer::Start()
 {
+	CreateCar();
+	return true;
+}
+
+void ModulePlayer::CreateCar()
+{
 	LOG("Loading player");
 
 	VehicleInfo car;
@@ -41,10 +47,10 @@ bool ModulePlayer::Start()
 
 	float half_width = car.chassis_size.x*0.5f;
 	float half_length = car.chassis_size.z*0.5f;
-	
-	vec3 direction(0,-1,0);
-	vec3 axis(-1,0,0);
-	
+
+	vec3 direction(0, -1, 0);
+	vec3 axis(-1, 0, 0);
+
 	car.num_wheels = 4;
 	car.wheels = new Wheel[4];
 
@@ -99,7 +105,12 @@ bool ModulePlayer::Start()
 
 	vehicle = App->physics->AddVehicle(car);
 	vehicle->SetPos(0, 8, 0);
-	return true;
+	vehicle->GetTransform(matrix);
+}
+
+void ModulePlayer::SetCarToStart()
+{
+	vehicle->SetTransform(matrix);
 }
 
 // Unload assets
@@ -144,13 +155,28 @@ update_status ModulePlayer::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
 	{
-		vehicle->SetPos(0, 8, 0);
-		brake = BRAKE_POWER;
+		restart = true;
+		restarting.Start();
 	}
+
+	if (restart && restarting.ReadSec() < 1)
+	{
+		SetCarToStart();
+		brake = BRAKE_POWER;
+		acceleration = -acceleration;
+		turn = 0;
+	}
+	else if (restarting.ReadSec() > 1)
+	{
+		restart = false;
+	}
+
 	vehicle->ApplyEngineForce(acceleration);
 	vehicle->Turn(turn);
 	vehicle->Brake(brake);
 	vehicle->GetTransform(&App->camera->Camera_view);
+
+	
 
 	vehicle->Render();
 

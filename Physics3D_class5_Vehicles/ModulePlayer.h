@@ -16,13 +16,18 @@ public:
 	virtual ~ModulePlayer();
 
 	bool Start();
+	void CreateCar();
+	void SetCarToStart();
 	update_status Update(float dt);
 	bool CleanUp();
 
 public:
 
+	float matrix[16];
 	PhysVehicle3D* vehicle;
 	float turn;
 	float acceleration;
 	float brake;
+	bool restart = false;
+	Timer restarting;
 };
