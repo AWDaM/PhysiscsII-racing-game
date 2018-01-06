@@ -33,10 +33,19 @@ public:
 	Sphere s_snake2[MAX_SNAKE];
 	*/
 	p2List<Cube> mapObjects;
-	PhysBody3D* bridgeStart;
-	PhysBody3D* bridgeEnd;
 
-	PhysBody3D* pb_chassis;
+	PhysBody3D* firstObstacle;
+	PhysBody3D* secondObstacle;
+	PhysBody3D* thirdObstacle;
+
+	PhysBody3D* firstObstaclePhys;
+	PhysBody3D* secondObstaclePhys;
+	PhysBody3D* thirdObstaclePhys;
+	Cube firstObstacleRender;
+	Cube secondObstacleRender;
+	Cube thirdObstacleRender;
+
+	Cube* pb_chassis;
 	Cube p_chassis;
 
 	PhysBody3D* pb_wheel;
