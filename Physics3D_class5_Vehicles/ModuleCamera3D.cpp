@@ -300,6 +300,18 @@ void ModuleCamera3D::WheelCamera()
 	Look(CameraPosition, CameraDirection, true);
 }
 
+void ModuleCamera3D::ResetCamera()
+{
+	btTransform transform = App->player->vehicle->vehicle->getChassisWorldTransform();
+	btVector3 direction = transform.getBasis().getColumn(2);
+	vec3 vec3direction = GetVec3From_btVec3(direction);
+	pastDirections.Clear();
+	while (pastDirections.Count() < 30)
+	{
+		pastDirections.Push(vec3direction);
+	}
+}
+
 vec3 ModuleCamera3D::VehicleToWorld(vec3 localpos)
 {
 	vec3 ret;

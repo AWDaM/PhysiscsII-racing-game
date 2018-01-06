@@ -17,7 +17,6 @@ public:
 	virtual ~ModulePlayer();
 
 	bool Start();
-	void CreateCar();
 	void SetCarToStart();
 	update_status Update(float dt);
 	bool CleanUp();
