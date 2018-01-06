@@ -37,13 +37,32 @@ public:
 	PhysBody3D* firstObstacle;
 	PhysBody3D* secondObstacle;
 	PhysBody3D* thirdObstacle;
+	PhysBody3D* Obstacle4;
+	PhysBody3D* Obstacle5;
+	PhysBody3D* Obstacle6;
+	PhysBody3D* Obstacle7;
+	PhysBody3D* Obstacle8;
+	PhysBody3D* Obstacle9;
 
 	PhysBody3D* firstObstaclePhys;
 	PhysBody3D* secondObstaclePhys;
 	PhysBody3D* thirdObstaclePhys;
+	PhysBody3D* Obstacle4Phys;
+	PhysBody3D* Obstacle5Phys;
+	PhysBody3D* Obstacle6Phys;
+	PhysBody3D* Obstacle7Phys;
+	PhysBody3D* Obstacle8Phys;
+	PhysBody3D* Obstacle9Phys;
+
 	Cube firstObstacleRender;
 	Cube secondObstacleRender;
 	Cube thirdObstacleRender;
+	Cube Obstacle4Render;
+	Cube Obstacle5Render;
+	Cube Obstacle6Render;
+	Cube Obstacle7Render;
+	Cube Obstacle8Render;
+	Cube Obstacle9Render;
 
 	Cube* pb_chassis;
 	Cube p_chassis;

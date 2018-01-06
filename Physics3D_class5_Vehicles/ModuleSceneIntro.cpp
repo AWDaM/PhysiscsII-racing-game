@@ -77,7 +77,7 @@ PhysBody3D* ModuleSceneIntro::LoadCubeFromXML(pugi::xml_node node)
 	c.SetRotation(angle , { node.child("vector").attribute("x").as_float(),node.child("vector").attribute("y").as_float(),node.child("vector").attribute("z").as_float() });
 	
 	mapObjects.add(c);
-	if (!node.child("firstObstacle").attribute("value").as_bool(false) && !node.child("secondObstacle").attribute("value").as_bool(false) && !node.child("thirdObstacle").attribute("value").as_bool(false))
+	if (!node.child("firstObstacle").attribute("value").as_bool(false) && !node.child("secondObstacle").attribute("value").as_bool(false) && !node.child("thirdObstacle").attribute("value").as_bool(false) && !node.child("Obstacle4").attribute("value").as_bool(false) && !node.child("Obstacle5").attribute("value").as_bool(false) && !node.child("Obstacle6").attribute("value").as_bool(false) && !node.child("Obstacle7").attribute("value").as_bool(false) && !node.child("Obstacle8").attribute("value").as_bool(false) && !node.child("Obstacle9").attribute("value").as_bool(false))
 		return App->physics->AddBody(c, 0.0f);
 	else if (node.child("firstObstacle").attribute("value").as_bool(false))
 	{
@@ -93,6 +93,36 @@ PhysBody3D* ModuleSceneIntro::LoadCubeFromXML(pugi::xml_node node)
 	{
 		thirdObstacle = App->physics->AddBody(c, 0.0f);
 		return thirdObstacle;
+	}
+	else if (node.child("Obstacle4").attribute("value").as_bool(false))
+	{
+		Obstacle4 = App->physics->AddBody(c, 0.0f);
+		return Obstacle4;
+	}
+	else if (node.child("Obstacle5").attribute("value").as_bool(false))
+	{
+		Obstacle5 = App->physics->AddBody(c, 0.0f);
+		return Obstacle5;
+	}
+	else if (node.child("Obstacle6").attribute("value").as_bool(false))
+	{
+		Obstacle6 = App->physics->AddBody(c, 0.0f);
+		return Obstacle6;
+	}
+	else if (node.child("Obstacle7").attribute("value").as_bool(false))
+	{
+		Obstacle7 = App->physics->AddBody(c, 0.0f);
+		return Obstacle7;
+	}
+	else if (node.child("Obstacle8").attribute("value").as_bool(false))
+	{
+		Obstacle8 = App->physics->AddBody(c, 0.0f);
+		return Obstacle8;
+	}
+	else if (node.child("Obstacle9").attribute("value").as_bool(false))
+	{
+		Obstacle9 = App->physics->AddBody(c, 0.0f);
+		return Obstacle9;
 	}
 }
 
@@ -122,6 +152,42 @@ void ModuleSceneIntro::AddBridgeConstrain()
 	thirdObstaclePhys = App->physics->AddBody(c, 1000);
 	App->physics->AddConstraintHinge(*thirdObstacle, *thirdObstaclePhys, App->camera->GetVec3From_btVec3(pivotStart), App->camera->GetVec3From_btVec3(pivotA), { 0,0,1 }, { 0,0,1 }, true);
 
+	c.SetPos(0, 55, -750);
+
+	Obstacle4Render = c;
+	Obstacle4Phys = App->physics->AddBody(c, 1000);
+	App->physics->AddConstraintHinge(*Obstacle4, *Obstacle4Phys, App->camera->GetVec3From_btVec3(pivotStart), App->camera->GetVec3From_btVec3(pivotA), { 0,0,1 }, { 0,0,1 }, true);
+
+	c.SetPos(0, 55, -700);
+
+	Obstacle5Render = c;
+	Obstacle5Phys = App->physics->AddBody(c, 1000);
+	App->physics->AddConstraintHinge(*Obstacle5, *Obstacle5Phys, App->camera->GetVec3From_btVec3(pivotStart), App->camera->GetVec3From_btVec3(pivotA), { 0,0,1 }, { 0,0,1 }, true);
+
+	c.SetPos(0, 55, -500);
+
+	Obstacle6Render = c;
+	Obstacle6Phys = App->physics->AddBody(c, 1000);
+	App->physics->AddConstraintHinge(*Obstacle6, *Obstacle6Phys, App->camera->GetVec3From_btVec3(pivotStart), App->camera->GetVec3From_btVec3(pivotA), { 0,0,1 }, { 0,0,1 }, true);
+
+	c.SetPos(0, 55, -450);
+
+	Obstacle7Render = c;
+	Obstacle7Phys = App->physics->AddBody(c, 1000);
+	App->physics->AddConstraintHinge(*Obstacle7, *Obstacle7Phys, App->camera->GetVec3From_btVec3(pivotStart), App->camera->GetVec3From_btVec3(pivotA), { 0,0,1 }, { 0,0,1 }, true);
+
+	c.SetPos(0, 55, -300);
+
+	Obstacle8Render = c;
+	Obstacle8Phys = App->physics->AddBody(c, 1000);
+	App->physics->AddConstraintHinge(*Obstacle8, *Obstacle8Phys, App->camera->GetVec3From_btVec3(pivotStart), App->camera->GetVec3From_btVec3(pivotA), { 0,0,1 }, { 0,0,1 }, true);
+
+	c.SetPos(0, 55, -200);
+
+	Obstacle9Render = c;
+	Obstacle9Phys = App->physics->AddBody(c, 1000);
+	App->physics->AddConstraintHinge(*Obstacle9, *Obstacle9Phys, App->camera->GetVec3From_btVec3(pivotStart), App->camera->GetVec3From_btVec3(pivotA), { 0,0,1 }, { 0,0,1 }, true);
+
 }
 
 // Update
@@ -132,11 +198,24 @@ update_status ModuleSceneIntro::Update(float dt)
 
 	firstObstaclePhys->GetTransform(&firstObstacleRender.transform);
 	secondObstaclePhys->GetTransform(&secondObstacleRender.transform);
-	thirdObstaclePhys->GetTransform(&thirdObstacleRender.transform);
+	thirdObstaclePhys->GetTransform(&thirdObstacleRender.transform); 
+	Obstacle4Phys->GetTransform(&Obstacle4Render.transform);
+	Obstacle5Phys->GetTransform(&Obstacle5Render.transform);
+	Obstacle6Phys->GetTransform(&Obstacle6Render.transform);
+	Obstacle7Phys->GetTransform(&Obstacle7Render.transform);
+	Obstacle8Phys->GetTransform(&Obstacle8Render.transform);
+	Obstacle9Phys->GetTransform(&Obstacle9Render.transform);
 
 	firstObstacleRender.Render();
 	secondObstacleRender.Render();
-	thirdObstacleRender.Render();
+	thirdObstacleRender.Render(); 
+	Obstacle4Render.Render();
+	Obstacle5Render.Render();
+	Obstacle6Render.Render();
+	Obstacle7Render.Render();
+	Obstacle8Render.Render();
+	Obstacle9Render.Render();
+
 	return UPDATE_CONTINUE;
 }
 

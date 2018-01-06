@@ -136,6 +136,7 @@ void ModulePlayer::LoadCarFromXML()
 void ModulePlayer::SetCarToStart()
 {
 	vehicle->SetTransform(matrix);
+	vehicle->vehicle->getRigidBody()->setLinearVelocity({ 0,0,0 });
 }
 
 // Unload assets
@@ -185,14 +186,14 @@ update_status ModulePlayer::Update(float dt)
 		
 	}
 
-	if (restart && restarting.ReadSec() < 1.5f)
+	if (restart && restarting.ReadSec() < 0.3f)
 	{
 		SetCarToStart();
 		brake = BRAKE_POWER;
 		acceleration = -acceleration;
 		turn = 0;
 	}
-	else if (restarting.ReadSec() > 1.5f)
+	else if (restarting.ReadSec() > 0.3f)
 	{
 		restart = false;
 	}
