@@ -162,4 +162,20 @@
     <size x="50" y="5" z="50"/>
     <pos x="-100" y="26.5" z="-425"/>
   </cube>
+  
+  <sensor>
+    <size x="5000" y="3" z="5000"/>
+    <pos x="0" y="1" z="0"/>
+    <type value="1"/>
+  </sensor>
+  <sensor>
+    <size x="60" y="60" z="2"/>
+    <pos x="3" y="0" z="0"/>
+    <type value="2"/>
+  </sensor>
+  <sensor>
+    <size x="60" y="60" z="5"/>
+    <pos x="200" y="0" z="-150"/>
+    <type value="2"/>
+  </sensor>
 </map>

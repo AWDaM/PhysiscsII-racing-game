@@ -2,7 +2,7 @@
 #include "Application.h"
 #include "ModuleSceneIntro.h"
 #include "Primitive.h"
-#include "PhysBody3D.h"
+
 
 ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -58,7 +58,12 @@ bool ModuleSceneIntro::LoadLevelFromXML()
 		tmp = tmp.next_sibling("cube");
 	}
 	
-
+	tmp = node.child("sensor");
+	while (tmp)
+	{
+		LoadSensorFromXML(tmp);
+		tmp = tmp.next_sibling("sensor");
+	}
 	return ret;
 }
 
@@ -77,10 +82,32 @@ PhysBody3D* ModuleSceneIntro::LoadCubeFromXML(pugi::xml_node node)
 	return App->physics->AddBody(c, 0.0f);
 }
 
+PhysBody3D* ModuleSceneIntro::LoadSensorFromXML(pugi::xml_node node)
+{
+	Cube c;
+	PhysBody3D* tmp;
+	c.SetSize(node.child("size").attribute("x").as_float(), node.child("size").attribute("y").as_float(), node.child("size").attribute("z").as_float());
+	c.SetPos(node.child("pos").attribute("x").as_float(), node.child("pos").attribute("y").as_float(), node.child("pos").attribute("z").as_float());
+
+	float angle = node.child("rotation").attribute("angle").as_float(0);
+
+	if (angle != 0)
+		c.SetRotation(angle, { node.child("vector").attribute("x").as_float(),node.child("vector").attribute("y").as_float(),node.child("vector").attribute("z").as_float() });
+
+	mapObjects.add(c);
+	tmp = App->physics->AddBody(c, 0.0f);
+	tmp->SetAsSensor(true);
+	tmp->collision_listeners.add(this);
+	tmp->s_type = GetTypeFromInt(node.child("type").attribute("value").as_int());
+
+	return tmp;
+}
+
 // Update
 update_status ModuleSceneIntro::Update(float dt)
 {	
 	for(p2List_item<Cube>* item = mapObjects.getFirst(); item; item = item->next)
+		
 		item->data.Render();
 
 	return UPDATE_CONTINUE;
@@ -88,5 +115,29 @@ update_status ModuleSceneIntro::Update(float dt)
 
 void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 {
+	if (body1->s_type == DEATH && body2->IsVehicle() && !App->player->restart)
+	{
+		App->player->dead = true;
+	}
+}
+
+SensorType ModuleSceneIntro::GetTypeFromInt(int type)
+{
+	SensorType ret;
+	switch (type)
+	{
+	case(1):
+		ret = DEATH;
+		break;
+	case(2):
+		ret = START;
+		break;
+	case(3):
+		ret = MID_CIRCUIT;
+	default:
+		ret = NO_SENSOR;
+		break;
+	}
+	return ret;
 }
 

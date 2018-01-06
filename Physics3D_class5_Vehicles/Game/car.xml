@@ -5,13 +5,13 @@
 <car>
 <size x="4" y="1" z="8"/>
   <offset x="0" y="1.5" z="0"/>
-  <mass value="1000"/>
-  <suspensionStiffness value="15"/>
+  <mass value="500"/>
+  <suspensionStiffness value="10"/>
   <suspensionCompression value="0.83"/>
-  <suspensionDamping value="0.95"/>
+  <suspensionDamping value="1"/>
   <maxSuspensionTravelCm value="1000"/>
-  <frictionSlip value="10.5"/>
-  <maxSuspensionForce value="6000"/>
+  <frictionSlip value="8"/>
+  <maxSuspensionForce value="10000"/>
   <connection_height value="1.2"/>
   <wheel_radius value="0.6"/>
   <wheel_width value="0.5" />

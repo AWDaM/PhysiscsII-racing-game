@@ -6,7 +6,7 @@
 struct PhysVehicle3D;
 struct VehicleInfo;
 #define MAX_ACCELERATION 10000.0f
-#define TURN_DEGREES 35.0f * DEGTORAD
+#define TURN_DEGREES 45.0f * DEGTORAD
 #define BRAKE_POWER 1000.0f
 
 
@@ -31,5 +31,6 @@ public:
 	float acceleration;
 	float brake;
 	bool restart = false;
+	bool dead = false;
 	Timer restarting;
 };

@@ -3,10 +3,10 @@
 #include "p2List.h"
 #include "Globals.h"
 #include "Primitive.h"
-
+#include "PhysBody3D.h"
 #define MAX_SNAKE 2
 
-struct PhysBody3D;
+
 struct PhysMotor3D;
 
 class ModuleSceneIntro : public Module
@@ -21,8 +21,9 @@ public:
 	 
 	bool LoadLevelFromXML();
 	PhysBody3D* LoadCubeFromXML(pugi::xml_node node);
-
+	PhysBody3D* LoadSensorFromXML(pugi::xml_node node);
 	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
+	SensorType GetTypeFromInt(int type);
 
 public:
 	/*

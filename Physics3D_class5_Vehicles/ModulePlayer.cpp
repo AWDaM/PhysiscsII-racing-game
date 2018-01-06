@@ -128,6 +128,7 @@ void ModulePlayer::LoadCarFromXML()
 
 	vehicle = App->physics->AddVehicle(*car);
 
+	vehicle->SetVehicle();
 	vehicle->SetPos(node.child("position").attribute("x").as_float(), node.child("position").attribute("y").as_float(), node.child("position").attribute("z").as_float());
 
 	vehicle->GetTransform(matrix);
@@ -178,11 +179,11 @@ update_status ModulePlayer::Update(float dt)
 		brake = BRAKE_POWER;
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN || dead)
 	{
 		restart = true;
 		restarting.Start();
-		
+		dead = false;
 	}
 
 	if (restart && restarting.ReadSec() < 1)
