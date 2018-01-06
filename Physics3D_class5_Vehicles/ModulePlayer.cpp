@@ -137,6 +137,7 @@ void ModulePlayer::LoadCarFromXML()
 void ModulePlayer::SetCarToStart()
 {
 	vehicle->SetTransform(matrix);
+	App->scene_intro->laps = 0;
 }
 
 // Unload assets
@@ -152,7 +153,7 @@ update_status ModulePlayer::Update(float dt)
 {
 	turn = acceleration = brake = 0.0f;
 
-	if(App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT && vehicle->GetKmh() < 200)
+	if(App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT && vehicle->GetKmh() < 250)
 	{
 		acceleration = MAX_ACCELERATION;
 	}
@@ -193,9 +194,20 @@ update_status ModulePlayer::Update(float dt)
 		acceleration = -acceleration;
 		turn = 0;
 	}
-	else if (restarting.ReadSec() > 1.5f)
+	else if (restarting.ReadSec() > 1.5f && restart)
 	{
 		restart = false;
+	}
+	if (App->scene_intro->finished && restarting.ReadSec() < 5.0f)
+	{
+		SetCarToStart();
+		brake = BRAKE_POWER;
+		acceleration = -acceleration;
+		turn = 0;
+	}
+	else if (restarting.ReadSec() > 5.0f && App->scene_intro->finished)
+	{
+		App->scene_intro->finished = false;
 	}
 
 	vehicle->ApplyEngineForce(acceleration);
@@ -208,7 +220,7 @@ update_status ModulePlayer::Update(float dt)
 	vehicle->Render();
 
 	char title[80];
-	sprintf_s(title, "%.1f Km/h", vehicle->GetKmh());
+	sprintf_s(title, "%.1f Km/h Laps:%i/4 Current time: %i Best time:%i", vehicle->GetKmh(),App->scene_intro->laps,App->scene_intro->laptimer.ReadSec(),App->scene_intro->bestTime);
 	App->window->SetTitle(title);
 
 	return UPDATE_CONTINUE;

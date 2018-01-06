@@ -8,7 +8,7 @@
   <mass value="500"/>
   <suspensionStiffness value="10"/>
   <suspensionCompression value="0.83"/>
-  <suspensionDamping value="1"/>
+  <suspensionDamping value="0.3"/>
   <maxSuspensionTravelCm value="1000"/>
   <frictionSlip value="8"/>
   <maxSuspensionForce value="10000"/>

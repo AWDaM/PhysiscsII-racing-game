@@ -32,6 +32,12 @@ public:
 	PhysBody3D* pb_snake2[MAX_SNAKE];
 	Sphere s_snake2[MAX_SNAKE];
 	*/
+	int laps = 0;
+	bool half_circuit = false;
+	bool finished;
+	Uint32 bestTime;
+	Timer laptimer;
+
 	p2List<Cube> mapObjects;
 
 	PhysBody3D* firstObstacle;

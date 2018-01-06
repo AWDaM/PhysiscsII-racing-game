@@ -22,8 +22,8 @@ bool ModuleSceneIntro::Start()
 	App->camera->Move(vec3(1.0f, 1.0f, 0.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
 
-	
-
+	bestTime = 999;
+	laps = 0;
 	LoadLevelFromXML();
 	return ret;
 }
@@ -174,6 +174,32 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 	if (body1->s_type == DEATH && body2->IsVehicle() && !App->player->restart)
 	{
 		App->player->dead = true;
+		half_circuit = false;
+	}
+	if (body1->s_type == MID_CIRCUIT && body2->IsVehicle())
+	{
+		half_circuit = true;
+	}
+	if (body1->s_type == START && body2->IsVehicle() && half_circuit)
+	{
+		half_circuit = false;
+		if (laps <= 3)
+		{
+			laps++;
+			if (bestTime > laptimer.ReadSec())
+			{
+				bestTime = laptimer.ReadSec();
+			}
+		}
+		else
+		{
+			finished;
+			
+		}
+	}
+	if (body1->s_type == START && body2->IsVehicle())
+	{
+		laptimer.Start();
 	}
 }
 
@@ -190,6 +216,7 @@ SensorType ModuleSceneIntro::GetTypeFromInt(int type)
 		break;
 	case(3):
 		ret = MID_CIRCUIT;
+		break;
 	default:
 		ret = NO_SENSOR;
 		break;
