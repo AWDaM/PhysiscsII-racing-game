@@ -4,7 +4,7 @@
 #include "p2Point.h"
 
 struct PhysVehicle3D;
-
+struct VehicleInfo;
 #define MAX_ACCELERATION 10000.0f
 #define TURN_DEGREES 35.0f * DEGTORAD
 #define BRAKE_POWER 1000.0f
@@ -17,14 +17,20 @@ public:
 	virtual ~ModulePlayer();
 
 	bool Start();
+	void CreateCar();
+	void SetCarToStart();
 	update_status Update(float dt);
 	bool CleanUp();
 	void LoadCarFromXML();
 
 public:
-	
+
+	VehicleInfo* car;
+	float matrix[16];
 	PhysVehicle3D* vehicle;
 	float turn;
 	float acceleration;
 	float brake;
+	bool restart = false;
+	Timer restarting;
 };
