@@ -1,6 +1,8 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleSceneIntro.h"
+#include "ModuleCamera3D.h"
+#include "PhysBody3D.h"
 #include "Primitive.h"
 
 
@@ -64,6 +66,9 @@ bool ModuleSceneIntro::LoadLevelFromXML()
 		LoadSensorFromXML(tmp);
 		tmp = tmp.next_sibling("sensor");
 	}
+
+	AddBridgeConstrain();
+
 	return ret;
 }
 
@@ -79,7 +84,51 @@ PhysBody3D* ModuleSceneIntro::LoadCubeFromXML(pugi::xml_node node)
 	c.SetRotation(angle , { node.child("vector").attribute("x").as_float(),node.child("vector").attribute("y").as_float(),node.child("vector").attribute("z").as_float() });
 	
 	mapObjects.add(c);
-	return App->physics->AddBody(c, 0.0f);
+	if (!node.child("firstObstacle").attribute("value").as_bool(false) && !node.child("secondObstacle").attribute("value").as_bool(false) && !node.child("thirdObstacle").attribute("value").as_bool(false))
+		return App->physics->AddBody(c, 0.0f);
+	else if (node.child("firstObstacle").attribute("value").as_bool(false))
+	{
+		firstObstacle = App->physics->AddBody(c, 0.0f);
+		return firstObstacle;
+	}
+	else if (node.child("secondObstacle").attribute("value").as_bool(false))
+	{
+		secondObstacle = App->physics->AddBody(c, 0.0f);
+		return secondObstacle;
+	}
+	else if (node.child("thirdObstacle").attribute("value").as_bool(false))
+	{
+		thirdObstacle = App->physics->AddBody(c, 0.0f);
+		return thirdObstacle;
+	}
+}
+
+void ModuleSceneIntro::AddBridgeConstrain()
+{
+	Cube c(49, 5, 49);
+	c.SetPos(125, 55, -500);
+
+	firstObstaclePhys = App->physics->AddBody(c, 1000);
+	firstObstacleRender = c;
+
+	btVector3 pivotStart(0, 0, 0);
+	btVector3 pivotA(-22.5, 0, 0);
+
+	
+	App->physics->AddConstraintHinge(*firstObstacle, *firstObstaclePhys, App->camera->GetVec3From_btVec3(pivotStart), App->camera->GetVec3From_btVec3(pivotA), { 0,0,1 }, { 0,0,1 }, true);
+
+	c.SetPos(125, 55, -600);
+
+	secondObstacleRender = c;
+	secondObstaclePhys = App->physics->AddBody(c, 1000);
+	App->physics->AddConstraintHinge(*secondObstacle, *secondObstaclePhys, App->camera->GetVec3From_btVec3(pivotStart), App->camera->GetVec3From_btVec3(pivotA), { 0,0,1 }, { 0,0,1 }, true);
+	
+	c.SetPos(125, 55, -700);
+
+	thirdObstacleRender = c;
+	thirdObstaclePhys = App->physics->AddBody(c, 1000);
+	App->physics->AddConstraintHinge(*thirdObstacle, *thirdObstaclePhys, App->camera->GetVec3From_btVec3(pivotStart), App->camera->GetVec3From_btVec3(pivotA), { 0,0,1 }, { 0,0,1 }, true);
+
 }
 
 PhysBody3D* ModuleSceneIntro::LoadSensorFromXML(pugi::xml_node node)
@@ -110,6 +159,13 @@ update_status ModuleSceneIntro::Update(float dt)
 		
 		item->data.Render();
 
+	firstObstaclePhys->GetTransform(&firstObstacleRender.transform);
+	secondObstaclePhys->GetTransform(&secondObstacleRender.transform);
+	thirdObstaclePhys->GetTransform(&thirdObstacleRender.transform);
+
+	firstObstacleRender.Render();
+	secondObstacleRender.Render();
+	thirdObstacleRender.Render();
 	return UPDATE_CONTINUE;
 }
 

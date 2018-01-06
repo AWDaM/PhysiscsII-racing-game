@@ -32,6 +32,7 @@ private:
 	btRigidBody* body = nullptr;
 	bool is_sensor = false;
 	bool is_vehicle = false;
+
 public:
 	p2List<Module*> collision_listeners;
 	SensorType s_type = NO_SENSOR;

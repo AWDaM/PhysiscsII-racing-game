@@ -152,7 +152,7 @@ update_status ModulePlayer::Update(float dt)
 {
 	turn = acceleration = brake = 0.0f;
 
-	if(App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT && vehicle->GetKmh() < 300)
+	if(App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT && vehicle->GetKmh() < 200)
 	{
 		acceleration = MAX_ACCELERATION;
 	}
@@ -186,14 +186,14 @@ update_status ModulePlayer::Update(float dt)
 		dead = false;
 	}
 
-	if (restart && restarting.ReadSec() < 1)
+	if (restart && restarting.ReadSec() < 1.5f)
 	{
 		SetCarToStart();
 		brake = BRAKE_POWER;
 		acceleration = -acceleration;
 		turn = 0;
 	}
-	else if (restarting.ReadSec() > 1)
+	else if (restarting.ReadSec() > 1.5f)
 	{
 		restart = false;
 	}

@@ -3,12 +3,10 @@
 #include "p2List.h"
 #include "Globals.h"
 #include "Primitive.h"
-#include "PhysBody3D.h"
 #define MAX_SNAKE 2
 
-
+enum SensorType;
 struct PhysMotor3D;
-
 class ModuleSceneIntro : public Module
 {
 public:
@@ -22,6 +20,7 @@ public:
 	bool LoadLevelFromXML();
 	PhysBody3D* LoadCubeFromXML(pugi::xml_node node);
 	PhysBody3D* LoadSensorFromXML(pugi::xml_node node);
+	void AddBridgeConstrain();
 	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
 	SensorType GetTypeFromInt(int type);
 
@@ -35,7 +34,18 @@ public:
 	*/
 	p2List<Cube> mapObjects;
 
-	PhysBody3D* pb_chassis;
+	PhysBody3D* firstObstacle;
+	PhysBody3D* secondObstacle;
+	PhysBody3D* thirdObstacle;
+
+	PhysBody3D* firstObstaclePhys;
+	PhysBody3D* secondObstaclePhys;
+	PhysBody3D* thirdObstaclePhys;
+	Cube firstObstacleRender;
+	Cube secondObstacleRender;
+	Cube thirdObstacleRender;
+
+	Cube* pb_chassis;
 	Cube p_chassis;
 
 	PhysBody3D* pb_wheel;

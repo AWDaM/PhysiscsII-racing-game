@@ -135,8 +135,39 @@
   </cube>
   <cube>
     <size x="50" y="5" z="50"/>
+    <pos x="150" y="5" z="-475"/>
+  </cube>
+  <cube>
+    <size x="50" y="5" z="50"/>
     <pos x="150" y="5" z="-425"/>
-    
+  </cube>
+  <cube>
+    <size x="50" y="5" z="50"/>
+    <pos x="150" y="5" z="-525"/>
+  </cube>
+  <cube>
+    <size x="50" y="5" z="50"/>
+    <pos x="150" y="5" z="-575"/>
+  </cube>
+  <cube>
+    <size x="50" y="5" z="50"/>
+    <pos x="150" y="55" z="-500"/>
+    <firstObstacle value="true"/>
+  </cube>
+  <cube>
+    <size x="50" y="5" z="50"/>
+    <pos x="150" y="55" z="-600"/>
+    <secondObstacle value="true"/>
+  </cube>
+  <cube>
+    <size x="50" y="5" z="50"/>
+    <pos x="150" y="55" z="-700"/>
+    <thirdObstacle value="true"/>
+  </cube>
+  <!--BRIDGE PART-->
+  <cube>
+    <size x="50" y="5" z="50"/>
+    <pos x="150" y="5" z="-425"/>
   </cube>
   <cube>
     <size x="50" y="5" z="50"/>
@@ -146,22 +177,52 @@
   </cube>
   <cube>
     <size x="50" y="5" z="50"/>
-    <pos x="50" y="20" z="-425"/>
-    <rotation angle="-15"/>
+    <pos x="50" y="17.7" z="-425"/>
+    <rotation angle="-10"/>
     <vector x="0" y="0" z="1"/>
   </cube>
   <cube>
     <size x="50" y="5" z="50"/>
-    <pos x="0" y="26.5" z="-425"/>
+    <pos x="0" y="22" z="-425"/>
   </cube>
   <cube>
     <size x="50" y="5" z="50"/>
-    <pos x="-50" y="26.5" z="-425"/>
+    <pos x="-50" y="22" z="-425"/>
   </cube>
   <cube>
     <size x="50" y="5" z="50"/>
-    <pos x="-100" y="26.5" z="-425"/>
+    <pos x="-100" y="22" z="-425"/>
   </cube>
+  <cube>
+    <size x="50" y="5" z="50"/>
+    <pos x="-150" y="22" z="-425"/>
+  </cube>
+  <cube>
+    <size x="50" y="5" z="50"/>
+    <pos x="-200" y="22" z="-425"/>
+  </cube>
+  <cube>
+    <size x="50" y="5" z="50"/>
+    <pos x="-250" y="22" z="-425"/>
+  </cube>
+  <cube>
+    <size x="50" y="5" z="50"/>
+    <pos x="-300" y="22" z="-425"/>
+  </cube>
+  <cube>
+    <size x="50" y="5" z="50"/>
+    <pos x="-350" y="22" z="-425"/>
+  </cube>
+  <cube>
+    <size x="50" y="5" z="50"/>
+    <pos x="-400" y="22" z="-425"/>
+  </cube>
+  <cube>
+    <size x="50" y="5" z="50"/>
+    <pos x="-1000" y="22" z="-425"/>
+    <bridgeEnd value="true"/>
+  </cube>
+
   
   <sensor>
     <size x="5000" y="3" z="5000"/>
@@ -178,4 +239,5 @@
     <pos x="200" y="0" z="-150"/>
     <type value="2"/>
   </sensor>
+
 </map>
