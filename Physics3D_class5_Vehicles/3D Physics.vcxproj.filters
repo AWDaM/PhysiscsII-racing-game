@@ -172,5 +172,8 @@
     <Xml Include="Game\map.xml">
       <Filter>Sources\Files</Filter>
     </Xml>
+    <Xml Include="Game\car.xml">
+      <Filter>Sources\Files</Filter>
+    </Xml>
   </ItemGroup>
 </Project>

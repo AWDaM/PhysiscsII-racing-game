@@ -124,6 +124,9 @@
     <ClCompile Include="Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <Xml Include="Game\car.xml">
+      <SubType>Designer</SubType>
+    </Xml>
     <Xml Include="Game\map.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

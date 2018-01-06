@@ -277,8 +277,8 @@ void ModuleCamera3D::FirstPersonCamera()
 	btVector3 direction = transform.getBasis().getColumn(2);
 	vec3 vec3position = GetVec3From_btVec3(position);
 	vec3 vec3direction = GetVec3From_btVec3(direction);
-	vec3 tmp = vec3direction;
-	vec3 CameraPosition = vec3position + VehicleToWorld({ 3,0,0 });
+	vec3 tmp = normalize(vec3direction);
+	vec3 CameraPosition = 
 	CameraPosition.y += 1;
 	vec3 CameraDirection = vec3position + 10*vec3direction;
 	Look(CameraPosition, CameraDirection, true);
