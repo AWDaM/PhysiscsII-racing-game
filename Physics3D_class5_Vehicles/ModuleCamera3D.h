@@ -14,6 +14,7 @@ enum CameraState
 	FIRST_PERSON,
 	FROM_WHEEL,
 	INITIAL_CAM,
+	FRONT,
 };
 
 class ModuleCamera3D : public Module
@@ -35,6 +36,7 @@ public:
 	void ThirdPersonCamera();
 	void ThirdPersonCameraFromBack();
 	void FirstPersonCamera();
+	void FirstPersonCameraFront();
 	void WheelCamera();
 	void ResetCamera();
 	void FixedCamera();

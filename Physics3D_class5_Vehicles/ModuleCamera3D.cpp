@@ -122,7 +122,7 @@ update_status ModuleCamera3D::Update(float dt)
 	}
 	else if (App->input->GetKey(SDL_SCANCODE_E) == KEY_REPEAT)
 	{
-		state = FROM_WHEEL;
+		state = FRONT;
 	}
 	else if (App->input->GetKey(SDL_SCANCODE_O) == KEY_REPEAT)
 	{
@@ -134,7 +134,7 @@ update_status ModuleCamera3D::Update(float dt)
 	}
 	if (!App->player->restart)
 	{
-		FollowCar(state);
+	FollowCar(state);
 	}
 	else
 	{
@@ -220,6 +220,9 @@ void ModuleCamera3D::FollowCar(CameraState state)
 		FixedCamera();
 		pastDirections.Pop();
 		break;
+	case(6):
+		FirstPersonCameraFront();
+		break;
 	default:
 		break;
 	}
@@ -293,12 +296,32 @@ void ModuleCamera3D::FirstPersonCamera()
 	btVector3 direction = transform.getBasis().getColumn(2);
 	vec3 vec3position = GetVec3From_btVec3(position);
 	vec3 vec3direction = GetVec3From_btVec3(direction);
-	vec3 tmp = normalize(vec3direction);
-	vec3 CameraPosition = 
-	CameraPosition.y += 1;
+
+	vec3 tmp = vec3direction;
+	vec3 CameraPosition = vec3position + 5 * normalize(tmp);
+
+	CameraPosition.y += 2;
 	vec3 CameraDirection = vec3position + 10*vec3direction;
+	CameraDirection.y += 0.1;
 	Look(CameraPosition, CameraDirection, true);
 	//LOG("x:%f y:%f z:%f", vec3direction.x, vec3direction.y, vec3direction.z);
+}
+
+void ModuleCamera3D::FirstPersonCameraFront()
+{
+	btTransform transform = App->player->vehicle->vehicle->getChassisWorldTransform();
+	btVector3 position = transform.getOrigin();
+	btVector3 direction = transform.getBasis().getColumn(2);
+	vec3 vec3position = GetVec3From_btVec3(position);
+	vec3 vec3direction = GetVec3From_btVec3(direction);
+
+	vec3 tmp = vec3direction;
+	vec3 CameraPosition = vec3position + 10 * normalize(tmp);
+
+	CameraPosition.y += 2;
+	vec3 CameraDirection = vec3position + vec3direction;
+	CameraDirection.y;
+	Look(CameraPosition, CameraDirection, true);
 }
 
 void ModuleCamera3D::WheelCamera()

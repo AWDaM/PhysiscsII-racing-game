@@ -138,6 +138,7 @@ void ModulePlayer::SetCarToStart()
 {
 	vehicle->SetTransform(matrix);
 	App->scene_intro->laps = 0;
+	vehicle->vehicle->getRigidBody()->setLinearVelocity({ 0,0,0 });
 }
 
 // Unload assets
@@ -187,14 +188,16 @@ update_status ModulePlayer::Update(float dt)
 		dead = false;
 	}
 
-	if (restart && restarting.ReadSec() < 1.5f)
+	if (restart && restarting.ReadSec() < 0.3f)
 	{
 		SetCarToStart();
 		brake = BRAKE_POWER;
 		acceleration = -acceleration;
 		turn = 0;
 	}
-	else if (restarting.ReadSec() > 1.5f && restart)
+
+	else if (restarting.ReadSec() > 0.3f && restart)
+
 	{
 		restart = false;
 	}
