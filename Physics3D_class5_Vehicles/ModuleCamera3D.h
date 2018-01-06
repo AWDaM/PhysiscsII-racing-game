@@ -13,6 +13,7 @@ enum CameraState
 	THIRD_PERSON_BACK,
 	FIRST_PERSON,
 	FROM_WHEEL,
+	INITIAL_CAM,
 };
 
 class ModuleCamera3D : public Module
@@ -36,8 +37,9 @@ public:
 	void FirstPersonCamera();
 	void WheelCamera();
 	void ResetCamera();
+	void FixedCamera();
 	vec3 VehicleToWorld(vec3 localpos);
-
+	void SetInitialSpeedAndPos(btVector3 position,btVector3 speed);
 private:
 
 	void CalculateViewMatrix();
@@ -51,6 +53,7 @@ private:
 	p2Queue<vec3> pastDirections;
 	mat4x4 ViewMatrix, ViewMatrixInverse;
 	CameraState state = NO_STATE;
-	
+	vec3 InitialPosition;
+	vec3 InitialSpeed;
 
 };

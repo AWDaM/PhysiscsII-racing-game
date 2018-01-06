@@ -18,7 +18,10 @@ bool ModulePlayer::Start()
 {
 
 	LoadCarFromXML();
-	
+	btTransform transform = App->player->vehicle->vehicle->getChassisWorldTransform();
+	btVector3 position = transform.getOrigin();
+	btVector3 direction = transform.getBasis().getColumn(2);
+	App->camera->SetInitialSpeedAndPos(position, direction);
 	return true;
 }
 
@@ -179,6 +182,7 @@ update_status ModulePlayer::Update(float dt)
 	{
 		restart = true;
 		restarting.Start();
+		
 	}
 
 	if (restart && restarting.ReadSec() < 1.5f)

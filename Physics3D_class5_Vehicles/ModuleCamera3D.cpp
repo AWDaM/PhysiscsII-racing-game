@@ -124,11 +124,22 @@ update_status ModuleCamera3D::Update(float dt)
 	{
 		state = FROM_WHEEL;
 	}
+	else if (App->input->GetKey(SDL_SCANCODE_O) == KEY_REPEAT)
+	{
+		state = INITIAL_CAM;
+	}
 	else
 	{
 		state = THIRD_PERSON;
 	}
-	FollowCar(state);
+	if (!App->player->restart)
+	{
+		FollowCar(state);
+	}
+	else
+	{
+		FixedCamera();
+	}
 	return UPDATE_CONTINUE;
 }
 
@@ -204,6 +215,11 @@ void ModuleCamera3D::FollowCar(CameraState state)
 		break;
 	case(4):
 		WheelCamera();
+		break;
+	case(5):
+		FixedCamera();
+		pastDirections.Pop();
+		break;
 	default:
 		break;
 	}
@@ -300,6 +316,15 @@ void ModuleCamera3D::WheelCamera()
 	Look(CameraPosition, CameraDirection, true);
 }
 
+void ModuleCamera3D::FixedCamera()
+{
+	vec3 CameraPosition = InitialPosition - 10*InitialSpeed;
+	CameraPosition.y += 7;
+	vec3 CameraDirection =10* InitialSpeed + InitialPosition;
+
+	Look(CameraPosition, CameraDirection, true);
+}
+
 void ModuleCamera3D::ResetCamera()
 {
 	btTransform transform = App->player->vehicle->vehicle->getChassisWorldTransform();
@@ -327,6 +352,12 @@ vec3 ModuleCamera3D::VehicleToWorld(vec3 localpos)
 
 
 	return ret;
+}
+
+void ModuleCamera3D::SetInitialSpeedAndPos(btVector3 position, btVector3 speed)
+{
+	InitialPosition = GetVec3From_btVec3(position);
+	InitialSpeed = GetVec3From_btVec3(speed);
 }
 
 // -----------------------------------------------------------------
