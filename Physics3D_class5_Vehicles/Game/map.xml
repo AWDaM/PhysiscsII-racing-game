@@ -162,4 +162,34 @@
     <size x="50" y="5" z="50"/>
     <pos x="-100" y="26.5" z="-425"/>
   </cube>
+  <cube>
+    <size x="50" y="5" z="50"/>
+    <pos x="-150" y="26.5" z="-425"/>
+  </cube>
+  <cube>
+    <size x="50" y="5" z="50"/>
+    <pos x="-200" y="26.5" z="-425"/>
+  </cube>
+  <cube>
+    <size x="50" y="5" z="50"/>
+    <pos x="-250" y="26.5" z="-425"/>
+  </cube>
+  <cube>
+    <size x="50" y="5" z="50"/>
+    <pos x="-300" y="26.5" z="-425"/>
+  </cube>
+  <cube>
+    <size x="50" y="5" z="50"/>
+    <pos x="-350" y="26.5" z="-425"/>
+  </cube>
+  <cube>
+    <size x="50" y="5" z="50"/>
+    <pos x="-400" y="26.5" z="-425"/>
+    <bridgeStart value="true"/>
+  </cube>
+  <cube>
+    <size x="50" y="5" z="50"/>
+    <pos x="-1000" y="26.5" z="-425"/>
+    <bridgeEnd value="true"/>
+  </cube>
 </map>

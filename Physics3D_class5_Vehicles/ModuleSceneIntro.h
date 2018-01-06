@@ -21,7 +21,7 @@ public:
 	 
 	bool LoadLevelFromXML();
 	PhysBody3D* LoadCubeFromXML(pugi::xml_node node);
-
+	void AddBridgeConstrain();
 	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
 
 public:
@@ -33,6 +33,8 @@ public:
 	Sphere s_snake2[MAX_SNAKE];
 	*/
 	p2List<Cube> mapObjects;
+	PhysBody3D* bridgeStart;
+	PhysBody3D* bridgeEnd;
 
 	PhysBody3D* pb_chassis;
 	Cube p_chassis;

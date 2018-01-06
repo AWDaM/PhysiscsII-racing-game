@@ -1,6 +1,7 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleSceneIntro.h"
+#include "ModuleCamera3D.h"
 #include "Primitive.h"
 #include "PhysBody3D.h"
 
@@ -58,6 +59,7 @@ bool ModuleSceneIntro::LoadLevelFromXML()
 		tmp = tmp.next_sibling("cube");
 	}
 	
+	AddBridgeConstrain();
 
 	return ret;
 }
@@ -74,7 +76,61 @@ PhysBody3D* ModuleSceneIntro::LoadCubeFromXML(pugi::xml_node node)
 	c.SetRotation(angle , { node.child("vector").attribute("x").as_float(),node.child("vector").attribute("y").as_float(),node.child("vector").attribute("z").as_float() });
 	
 	mapObjects.add(c);
-	return App->physics->AddBody(c, 0.0f);
+	if (!node.child("bridgeStart").attribute("value").as_bool(false) && !node.child("bridgeEnd").attribute("value").as_bool(false))
+		return App->physics->AddBody(c, 0.0f);
+	else if (node.child("bridgeStart").attribute("value").as_bool(false))
+	{
+		bridgeStart = App->physics->AddBody(c, 0.0f);
+		return bridgeStart;
+	}
+	else if (node.child("bridgeEnd").attribute("value").as_bool(false))
+	{
+		bridgeEnd = App->physics->AddBody(c, 0.0f);
+		return bridgeEnd;
+	}
+}
+
+void ModuleSceneIntro::AddBridgeConstrain()
+{
+	Cube c(12.5, 5, 50);
+	c.SetPos(-400, 26.5, -425);
+
+	PhysBody3D* segment1 = App->physics->AddBody(c, 1000);
+	PhysBody3D* segment2 = App->physics->AddBody(c, 1000);
+
+	btVector3 pivotStart(-25, 0, 0);
+	btVector3 pivotEnd(25, 0, 0);
+	btVector3 pivotA(-6.25, 0, 0);
+	btVector3 pivotB(6.25, 0, 0);
+	
+	App->physics->AddConstraintHinge(*bridgeStart, *segment1, App->camera->GetVec3From_btVec3(pivotStart), App->camera->GetVec3From_btVec3(pivotB), { 0,0,1 }, { 0,0,1 }, true);
+
+
+	App->physics->AddConstraintHinge(*segment1, *segment2, App->camera->GetVec3From_btVec3(pivotA), App->camera->GetVec3From_btVec3(pivotB), { 0,0,1 }, { 0,0,1 }, true);
+
+
+
+	segment1 = App->physics->AddBody(c, 1000);
+
+	App->physics->AddConstraintHinge(*segment2, *segment1, App->camera->GetVec3From_btVec3(pivotA), App->camera->GetVec3From_btVec3(pivotB), { 0,0,1 }, { 0,0,1 }, true);
+
+	for (int i = 0; i < 20; i++)
+	{
+		segment2 = App->physics->AddBody(c, 1000);
+
+		App->physics->AddConstraintHinge(*segment1, *segment2, App->camera->GetVec3From_btVec3(pivotA), App->camera->GetVec3From_btVec3(pivotB), { 0,0,1 }, { 0,0,1 }, true);
+
+
+
+		segment1 = App->physics->AddBody(c, 1000);
+
+		App->physics->AddConstraintHinge(*segment2, *segment1, App->camera->GetVec3From_btVec3(pivotA), App->camera->GetVec3From_btVec3(pivotB), { 0,0,1 }, { 0,0,1 }, true);
+
+	}
+
+
+	App->physics->AddConstraintHinge(*segment1, *bridgeEnd, App->camera->GetVec3From_btVec3(pivotA), App->camera->GetVec3From_btVec3(pivotEnd), { 0,0,1 }, { 0,0,1 }, true);
+
 }
 
 // Update
